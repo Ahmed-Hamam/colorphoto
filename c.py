@@ -72,8 +72,8 @@ if uploaded_file is not None:
 else:
     fix_image("zebra.jpg")
     
-CURRENT_THEME = "dark"
-IS_DARK_THEME = True
+st.set_page_config( layout="wide", initial_sidebar_state="expanded", theme="dark")
+
 # Add custom CSS for background color
 page_bg_img = f"""
 <style>
