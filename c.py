@@ -84,6 +84,7 @@ background-attachment: local;
 }}
 [data-testid="stHeader"] {{
 background: rgba(0,0,0,0);
+base="dark"
 }}
 </style>
 """
