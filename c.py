@@ -88,4 +88,23 @@ background: rgba(0,0,0,0);
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
-st.beta_set_theme('dark')
+
+# Define the content of the config file
+config_content = """
+[theme]
+base = "dark"
+"""
+
+# Determine the path to the Streamlit config file
+# Check if it's the user-specific or project-specific config file
+user_config_path = os.path.expanduser("~/.streamlit/config.toml")
+project_config_path = "config.toml"  # Adjust this path based on your project's structure
+
+# Check if the user-specific config exists, otherwise use the project-specific one
+config_path = user_config_path if os.path.exists(user_config_path) else project_config_path
+
+# Write the theme configuration to the config file
+with open(config_path, "w") as config_file:
+    config_file.write(config_content)
+
+print(f"Dark theme set as default in {config_path}")
