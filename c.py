@@ -73,13 +73,19 @@ else:
     fix_image("zebra.jpg")
 
 # Add custom CSS for background color
-st.markdown(
-    """
-    <style>
-    body {
-        background-color: #f0f2f6;  /* Light grey color */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] > .main {{
+background-image: url("https://i.postimg.cc/4xgNnkfX/Untitled-design.png");
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: local;
+}}
+[data-testid="stHeader"] {{
+background: rgba(0,0,0,0);
+}}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
