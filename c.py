@@ -76,7 +76,7 @@ else:
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
-background-image: url("https://i.postimg.cc/4xgNnkfX/Untitled-design.png");
+background-image: url("https://pixabay.com/get/g13e2e16804a86cc37febc271fe6d560a4514323c1969b6fdf90d1714a0a36a84c0b0f42a72675e44b084494c34d2c2100ad0e95c123d1f13c8edac1d888c2ec2_1280.jpg");
 background-size: cover;
 background-position: center center;
 background-repeat: no-repeat;
