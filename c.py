@@ -84,8 +84,8 @@ background-attachment: local;
 }}
 [data-testid="stHeader"] {{
 background: rgba(0,0,0,0);
-base="dark"
 }}
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
+st.beta_set_theme('dark')
