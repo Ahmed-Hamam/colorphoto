@@ -1,36 +1,88 @@
 import streamlit as st
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageEnhance
 import io
+import base64
 
-# Function to invert the colors of the input image
-def predict(image):
-    return ImageOps.invert(image)
+# Constants
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-# Streamlit app setup
-st.title("Image Inverter")
-st.write("Upload an image and get its color inverted.")
+# Function to enhance the brightness of the input image
+def enhance_image(image, factor):
+    enhancer = ImageEnhance.Brightness(image)
+    enhanced_image = enhancer.enhance(factor)
+    return ImageOps.invert(enhanced_image)  # Invert colors after enhancement
 
-# File uploader for image input
-uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
+# Function to process and display the image
+def fix_image(upload=None):
+    if upload:
+        image = Image.open(upload)
+    else:
+        # Load the default image
+        image = Image.open("zebra.jpg")
 
-if uploaded_file is not None:
-    # Open the uploaded image
-    image = Image.open(uploaded_file)
+    # Create two columns for layout
+    col1, col2 = st.columns(2)
 
-    # Display the uploaded image
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+    # Display input image in the first column
+    with col1:
+        st.image(image, caption="Input Image", use_column_width=True)
 
-    # Process the image and display the result
-    inverted_image = predict(image)
-    st.image(inverted_image, caption="Inverted Image", use_column_width=True)
+    # Process the image with the given enhancement factor
+    enhanced_inverted_image = enhance_image(image, factor)
 
-    # Provide download option for the inverted image
+    # Display processed image in the second column
+    with col2:
+        st.image(enhanced_inverted_image, caption="Enhanced and Inverted Image", use_column_width=True)
+
+    # Provide download option for the enhanced and inverted image
     buf = io.BytesIO()
-    inverted_image.save(buf, format="PNG")
+    enhanced_inverted_image.save(buf, format="PNG")
     byte_im = buf.getvalue()
-    st.download_button(
-        label="Download Inverted Image",
+    st.sidebar.download_button(
+        label="Download Enhanced and Inverted Image",
         data=byte_im,
-        file_name="inverted_image.png",
+        file_name="enhanced_inverted_image.png",
         mime="image/png"
     )
+main_bg = "ocean-8285752_1280.jpg"
+main_bg_ext = "jpg"
+
+side_bg = "astronomy-1867616_1280.jpg"
+side_bg_ext = "jpg"
+
+# Streamlit app setup
+st.title("Image Enhancer and Inverter")
+st.write("Upload an image, adjust the brightness, and get its color inverted.")
+
+# Sidebar for additional controls
+st.sidebar.write("## Upload and Download :gear:")
+
+# File uploader in the sidebar for image input
+uploaded_file = st.sidebar.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
+
+# Add a slider to adjust the enhancement factor in the sidebar
+factor = st.sidebar.slider("Enhancement Factor", min_value=0.5, max_value=3.0, value=1.0, step=0.1)
+
+# Check the uploaded file size and use the uploaded or default image
+if uploaded_file is not None:
+    if uploaded_file.size > MAX_FILE_SIZE:
+        st.error("The uploaded file is too large. Please upload an image smaller than 5MB.")
+    else:
+        fix_image(upload=uploaded_file)
+else:
+    fix_image("zebra.jpg")
+
+# Add custom CSS for background color
+st.markdown(
+    f"""
+    <style>
+    .reportview-container {{
+        background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()})
+    }}
+   .sidebar .sidebar-content {{
+        background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()})
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
