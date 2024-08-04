@@ -76,7 +76,7 @@ else:
 page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
-background-image: url("https://pixabay.com/get/g13e2e16804a86cc37febc271fe6d560a4514323c1969b6fdf90d1714a0a36a84c0b0f42a72675e44b084494c34d2c2100ad0e95c123d1f13c8edac1d888c2ec2_1280.jpg");
+background-image: url("https://pixabay.com/get/g49cf24c05c1df5dff67b1b00a479de1ccafd0517cae82b4e50d02eafc21463303527cca3601d6bd455050a19e3182d70a185b63b8319e01fbcd46706dc84dec9_1280.jpg");
 background-size: cover;
 background-position: center center;
 background-repeat: no-repeat;
@@ -87,5 +87,4 @@ background: rgba(0,0,0,0);
 }}
 </style>
 """
-
 st.markdown(page_bg_img, unsafe_allow_html=True)
